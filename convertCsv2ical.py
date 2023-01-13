@@ -7,9 +7,10 @@ from datetime import datetime,timedelta
 from icalendar import Calendar, Event, vText
 
 
-def read_the_sheet(sheet="",max=50):
+def read_the_sheet(sheet="",max=10):
+    """ read the csv sheet, return max events """
     results=[]
-    for row in range(1,50):
+    for row in range(1,len(sheet)):
       if sheet[row][0]:
           datetimetxt = sheet[row][0] + " " + sheet[row][1]
           try:
@@ -29,8 +30,6 @@ def read_the_sheet(sheet="",max=50):
 
 def display(cal):
    return cal.to_ical().decode("utf-8").replace('\r\n', '\n').strip()
-   #return cal.to_ical().decode("utf-8").strip()
-
 
 
 import csv
@@ -41,8 +40,8 @@ if __name__=="__main__":
     with open(csv_input, 'r', newline='') as csv_file:
         csv_content = csv.reader(csv_file, delimiter=';')
         csv_content = list(csv_content)
-    print(csv_content)
-    csv_events = read_the_sheet(csv_content,max=3)
+    # print(csv_content)
+    csv_events = read_the_sheet(csv_content,max=50)
     cal = Calendar()
     cal.add('prodid', '-//suhler-sternfreunde.de//')
     cal.add('version', '2.0')
@@ -54,7 +53,6 @@ if __name__=="__main__":
         event.add('summary',csv_event['title'])
         event.add('dtend',csv_event['end'])
         event.add('location',csv_event['location'])
-        event.add('description',"")
         categories=[]
         if 'Planetarium' in csv_event['location']:
           categories.append(vText("Planetariumsvorführung"))
@@ -65,7 +63,7 @@ if __name__=="__main__":
           #event.set_inline('categories',categories,encode=0)
           #event['categories']=vText(",".join(categories))
           # kategorien funktionieren nicht beim import in plone
-          pass  
+          event.add('description',",".join(categories))
         cal.add_component(event)
       except Exception as error:
         print(error)
