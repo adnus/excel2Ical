@@ -13,8 +13,9 @@ def read_the_sheet(sheet="",max=10):
     for row in range(1,len(sheet)):
       if sheet[row][0]:
           datetimetxt = sheet[row][0] + " " + sheet[row][1]
+          #print(datetimetxt)
           try:
-            eventbegin = datetime.strptime(datetimetxt,"%d/%m/%y %H:%M Uhr")
+            eventbegin = datetime.strptime(datetimetxt,"%d.%m.%y %H:%M:%S")
             eventend = eventbegin + timedelta(hours=1)
           except:
             eventbegin = datetimetxt
@@ -36,7 +37,7 @@ import csv
 
 if __name__=="__main__":
  
-    csv_input="Tabelle.csv"
+    csv_input="Ostern.2023..csv"
     with open(csv_input, 'r', newline='') as csv_file:
         csv_content = csv.reader(csv_file, delimiter=';')
         csv_content = list(csv_content)
