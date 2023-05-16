@@ -10,12 +10,12 @@ from icalendar import Calendar, Event, vText
 def read_the_sheet(sheet="",max=10):
     """ read the csv sheet, return max events """
     results=[]
-    for row in range(1,len(sheet)):
+    for row in range(0,len(sheet)):
       if sheet[row][0]:
           datetimetxt = sheet[row][0] + " " + sheet[row][1]
-          #print(datetimetxt)
+          print(datetimetxt)
           try:
-            eventbegin = datetime.strptime(datetimetxt,"%d.%m.%y %H:%M:%S")
+            eventbegin = datetime.strptime(datetimetxt,"%d.%m.%y %H:%M Uhr")
             eventend = eventbegin + timedelta(hours=1)
           except:
             eventbegin = datetimetxt
@@ -34,12 +34,21 @@ def display(cal):
 
 
 import csv
+import argparse
 
 if __name__=="__main__":
  
-    csv_input="Ostern.2023..csv"
+    parser = argparse.ArgumentParser(
+                    prog='convertCsv2ical.py',
+                    description='Convert a CSV File to ical',
+                    epilog='Example: ./convertCsv2ical.py sommer.2023.csv ","')
+    parser.add_argument('csvinputfile')
+    parser.add_argument('delimiter')
+    args = parser.parse_args()
+    print(args.csvinputfile)                
+    csv_input=args.csvinputfile
     with open(csv_input, 'r', newline='') as csv_file:
-        csv_content = csv.reader(csv_file, delimiter=';')
+        csv_content = csv.reader(csv_file, delimiter=args.delimiter)
         csv_content = list(csv_content)
     # print(csv_content)
     csv_events = read_the_sheet(csv_content,max=50)
@@ -72,6 +81,6 @@ if __name__=="__main__":
     #print(cal)
     
     # write to file
-    ical_output = "Tabelle.ics"
+    ical_output = args.csvinputfile+".ics"
     with open(ical_output, 'w') as ics_file:
         ics_file.write(display(cal))

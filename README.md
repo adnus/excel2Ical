@@ -15,6 +15,9 @@ pip3 install icalendar
 
 ## Usage
 
-In this initial version, you have to code all the parameters hard in the source.
+In this initial version, you have to code some the parameters hard in the source.
 
-## Todo
+The time2string format has to be define in the code, depending of the cell
+content (cell 1 and cell 2).
+
+
