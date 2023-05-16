@@ -16,5 +16,3 @@ pip3 install icalendar
 ## Usage
 
 In this initial version, you have to code all the parameters hard in the source.
-
-## Todo
