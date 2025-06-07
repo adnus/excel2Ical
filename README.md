@@ -12,12 +12,20 @@ Fortunately, plone has a feature "ical import".
 ## Requirements
 
 pip3 install icalendar
+pip3 install python-dateutil
 
 ## Usage
 
-In this initial version, you have to code some the parameters hard in the source.
+Convert a CSV file with event data to an iCalendar (.ics) file.
 
-The time2string format has to be define in the code, depending of the cell
-content (cell 1 and cell 2).
+positional arguments:
+  csv_file    Path to the CSV input file
+  delimiter   Delimiter used in the CSV file (e.g. ";")
+
+options:
+  -h, --help  show this help message and exit
+  --max MAX   Maximum number of events to read
+
+Example: ./convertCsv2ical.py sommer.2023.csv ";"
 
 
